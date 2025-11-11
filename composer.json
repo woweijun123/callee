@@ -28,7 +28,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Cases\\": "src/"
+      "Callee\\": "src/"
     }
   },
   "autoload-dev": {
