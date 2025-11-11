@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Callee;
+namespace Callee\Exception;
 
 use Exception;
 

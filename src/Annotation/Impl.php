@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Annotation;
+namespace Callee\Annotation;
 
 use Attribute;
 use Hyperf\Di\Annotation\AbstractAnnotation;

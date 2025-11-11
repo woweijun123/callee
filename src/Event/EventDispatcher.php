@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Internal\Event;
+namespace Callee\Event;
 
 use Callee\DatabaseTransactionRecord;
 use Callee\ShouldDispatchAfterCommit;

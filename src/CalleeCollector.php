@@ -2,9 +2,9 @@
 
 namespace Callee;
 
+use Callee\Annotation\Mapper;
 use Hyperf\Di\MetadataCollector;
 use ReflectionException;
-use App\Annotation\Mapper;
 
 class CalleeCollector extends MetadataCollector
 {

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Callee;
 
-use XHyperf\Invoker\Listener\ImplRegister;
+use Callee\Listener\ImplRegister;
+use Hyperf\Event\EventDispatcher;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 class ConfigProvider
 {
@@ -12,6 +14,8 @@ class ConfigProvider
     {
         return [
             'dependencies' => [
+                // 注册事件分发器
+                EventDispatcherInterface::class => EventDispatcher::class
             ],
             'listeners'    => [
                 ImplRegister::class,

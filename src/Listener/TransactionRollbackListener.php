@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Listener\Transaction;
+namespace Callee\Listener;
 
 use Callee\DatabaseTransactionRecord;
 use Hyperf\Database\Events\TransactionRolledBack;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Annotation;
+namespace Callee\Annotation;
 
+use Attribute;
 use Callee\CalleeCollector;
 use Callee\CalleeEvent;
-use Attribute;
 use Hyperf\Di\Annotation\AbstractAnnotation;
 
 /**
