@@ -1,0 +1,61 @@
+{
+  "name": "riven/callee",
+  "description": "",
+  "license": "MIT",
+  "keywords": [
+    "php",
+    "swoole",
+    "hyperf",
+    "callee"
+  ],
+  "homepage": "https://yangqi.co",
+  "support": {
+    "issues": "https://github.com/woweijun123/callee/issues",
+    "source": "https://github.com/woweijun123/callee",
+    "docs": "https://github.com/woweijun123/README.md",
+    "pull-request": "https://github.com/woweijun123/callee/pulls"
+  },
+  "require": {
+    "php": ">=8.3",
+    "hyperf/framework": "~3.1.0",
+    "hyperf/context": "~3.1",
+    "hyperf/di": "~3.1",
+    "hyperf/event": "~3.1",
+    "hyperf/logger": "~3.1.0",
+    "hyperf/database": "~3.1.0"
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Riven\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "phpunit/phpunit": "^10.1.3",
+    "psr-4": {
+      "Test\\": "tests"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "hyperf": {
+      "config": "Callee\\ConfigProvider"
+    }
+  },
+  "scripts": {
+    "analyse": "phpstan analyse --memory-limit=-1",
+    "cs-fix": "php-cs-fixer fix $1 --verbose",
+    "json-fix": [
+      "./bin/composer-json-fixer",
+      "@composer normalize --no-update-lock",
+      "find ./src -name composer.json -exec composer normalize --no-update-lock {} \\;"
+    ],
+    "license-check": "docheader check src/ test/",
+    "rector": "rector process --clear-cache",
+    "test": "./bin/co-phpunit --colors=always",
+    "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+  }
+}
