@@ -113,10 +113,8 @@ class CalleeCollector extends MetadataCollector
     {
         if ($key) {
             foreach (static::$container as $namespace => $events) {
-                foreach ($events as $event => $callable) {
-                    if ($callable[0][0] === $key) {
-                        unset(static::$container[$namespace][$event]);
-                    }
+                if ($namespace === $key) {
+                    unset(static::$container[$namespace]);
                 }
             }
         } else {

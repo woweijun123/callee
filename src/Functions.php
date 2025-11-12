@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hyperf\Config;
+namespace Callee;
 
-use Callee\CalleeEvent;
 use Callee\Exception\CalleeException;
-use Callee\Reflection;
 use Hyperf\Context\ApplicationContext;
 use Psr\Container\NotFoundExceptionInterface;
 
