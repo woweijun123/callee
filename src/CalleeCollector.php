@@ -119,9 +119,6 @@ class CalleeCollector extends MetadataCollector
                         if ($callable->callee[0] === $key) {
                             unset(static::$container[$namespace][$event]);
                         }
-                        if ($namespace === $key) {
-                            unset(static::$container[$namespace]);
-                        }
                     }
                 }
             }
