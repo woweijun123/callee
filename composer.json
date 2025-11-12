@@ -29,7 +29,10 @@
   "autoload": {
     "psr-4": {
       "Callee\\": "src/"
-    }
+    },
+    "files": [
+      "src/Functions.php"
+    ]
   },
   "autoload-dev": {
     "phpunit/phpunit": "^10.1.3"
