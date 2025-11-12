@@ -3,6 +3,7 @@
 namespace Callee;
 
 use BackedEnum;
+use Callee\Exception\CalleeException;
 use UnitEnum;
 
 trait CalleeEventTrait

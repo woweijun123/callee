@@ -2,6 +2,7 @@
 
 namespace Callee\Listener;
 
+use Callee\Annotation\Impl;
 use Callee\Reflection;
 use Hyperf\Contract\ContainerInterface;
 use Hyperf\Di\Annotation\AnnotationCollector;
