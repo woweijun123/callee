@@ -6,6 +6,9 @@ use Hyperf\Context\ApplicationContext;
 use Hyperf\Collection\Arr;
 use Hyperf\Stringable\Str;
 use InvalidArgumentException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -32,11 +35,16 @@ class Reflection
      */
     public static function call(CalleeEvent|array|null $event, array $args = [], bool $strict = false, mixed $default = null, ?string $scope = null): mixed
     {
-        if (!$callable = CalleeCollector::getCallee($event, $scope)) {
+        $callable = CalleeCollector::getCallee($event, $scope);
+        if (!$callable) {
             return value($default, $args);
         }
-
-        return self::invoke($callable[0], $args, $callable[1], $strict);
+        $result = [];
+         /* @var CalleeData $callee */
+        foreach ($callable as $callee) {
+            $result[] = self::invoke($callee->callee, $args, $callee->mapper, $strict);
+        }
+        return count($result) == 1 ? array_shift($result) : $result;
     }
 
     /**

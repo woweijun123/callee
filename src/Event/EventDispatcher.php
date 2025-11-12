@@ -41,7 +41,7 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * Dump the debug message if $logger property is provided.
+     * 如果提供了$logger 属性，则输出调试信息。
      * @param mixed $listener
      * @param object $event
      */
