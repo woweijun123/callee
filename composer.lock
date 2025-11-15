@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "657d6ebde546beadd48d1cd128f4dff6",
+    "content-hash": "5063774e3803d96aa98229b80e1a8d31",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -874,6 +874,79 @@
             "time": "2025-10-30T01:44:44+00:00"
         },
         {
+            "name": "hyperf/db-connection",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hyperf/db-connection.git",
+                "reference": "9db060c0e53ff704ac65ef30d8c5088973ba5612"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hyperf/db-connection/zipball/9db060c0e53ff704ac65ef30d8c5088973ba5612",
+                "reference": "9db060c0e53ff704ac65ef30d8c5088973ba5612",
+                "shasum": ""
+            },
+            "require": {
+                "hyperf/collection": "~3.1.0",
+                "hyperf/context": "~3.1.0",
+                "hyperf/contract": "~3.1.0",
+                "hyperf/coroutine": "~3.1.0",
+                "hyperf/database": "~3.1.0",
+                "hyperf/di": "~3.1.0",
+                "hyperf/framework": "~3.1.0",
+                "hyperf/model-listener": "~3.1.0",
+                "hyperf/pool": "~3.1.0",
+                "hyperf/support": "~3.1.0",
+                "php": ">=8.1",
+                "psr/container": "^1.0 || ^2.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Hyperf\\DbConnection\\ConfigProvider"
+                },
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\DbConnection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A hyperf db connection handler for hyperf/database.",
+            "homepage": "https://hyperf.io",
+            "keywords": [
+                "Connection",
+                "database",
+                "hyperf",
+                "php"
+            ],
+            "support": {
+                "docs": "https://hyperf.wiki",
+                "issues": "https://github.com/hyperf/hyperf/issues",
+                "pull-request": "https://github.com/hyperf/hyperf/pulls",
+                "source": "https://github.com/hyperf/hyperf"
+            },
+            "funding": [
+                {
+                    "url": "https://hyperf.wiki/#/zh-cn/donate",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://opencollective.com/hyperf",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2025-10-30T01:44:44+00:00"
+        },
+        {
             "name": "hyperf/di",
             "version": "dev-master",
             "source": {
@@ -1377,6 +1450,74 @@
             "time": "2025-10-30T01:44:44+00:00"
         },
         {
+            "name": "hyperf/model-listener",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hyperf/model-listener.git",
+                "reference": "15238b2026158036993939c1b664f3f76f02a855"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hyperf/model-listener/zipball/15238b2026158036993939c1b664f3f76f02a855",
+                "reference": "15238b2026158036993939c1b664f3f76f02a855",
+                "shasum": ""
+            },
+            "require": {
+                "hyperf/contract": "~3.1.0",
+                "hyperf/database": "~3.1.0",
+                "hyperf/di": "~3.1.0",
+                "hyperf/event": "~3.1.0",
+                "hyperf/support": "~3.1.0",
+                "php": ">=8.1",
+                "psr/container": "^1.0 || ^2.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Hyperf\\ModelListener\\ConfigProvider"
+                },
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\ModelListener\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A model listener for Hyperf.",
+            "homepage": "https://hyperf.io",
+            "keywords": [
+                "hyperf",
+                "model-listener",
+                "php",
+                "swoole"
+            ],
+            "support": {
+                "docs": "https://hyperf.wiki",
+                "issues": "https://github.com/hyperf/hyperf/issues",
+                "pull-request": "https://github.com/hyperf/hyperf/pulls",
+                "source": "https://github.com/hyperf/hyperf"
+            },
+            "funding": [
+                {
+                    "url": "https://hyperf.wiki/#/zh-cn/donate",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://opencollective.com/hyperf",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2025-10-30T01:44:44+00:00"
+        },
+        {
             "name": "hyperf/pipeline",
             "version": "dev-master",
             "source": {
@@ -1417,6 +1558,78 @@
                 "hyperf",
                 "php",
                 "pipeline",
+                "swoole"
+            ],
+            "support": {
+                "docs": "https://hyperf.wiki",
+                "issues": "https://github.com/hyperf/hyperf/issues",
+                "pull-request": "https://github.com/hyperf/hyperf/pulls",
+                "source": "https://github.com/hyperf/hyperf"
+            },
+            "funding": [
+                {
+                    "url": "https://hyperf.wiki/#/zh-cn/donate",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://opencollective.com/hyperf",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2025-10-30T01:44:44+00:00"
+        },
+        {
+            "name": "hyperf/pool",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hyperf/pool.git",
+                "reference": "a4b763723103636cca3afb9f85c620ae02c1a33c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hyperf/pool/zipball/a4b763723103636cca3afb9f85c620ae02c1a33c",
+                "reference": "a4b763723103636cca3afb9f85c620ae02c1a33c",
+                "shasum": ""
+            },
+            "require": {
+                "hyperf/context": "~3.1.0",
+                "hyperf/contract": "~3.1.0",
+                "hyperf/coordinator": "~3.1.0",
+                "hyperf/coroutine": "~3.1.0",
+                "hyperf/engine": "^2.0",
+                "hyperf/support": "~3.1.0",
+                "php": ">=8.1",
+                "psr/container": "^1.0 || ^2.0"
+            },
+            "suggest": {
+                "psr/event-dispatcher": "Required to use events."
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "hyperf": {
+                    "config": "Hyperf\\Pool\\ConfigProvider"
+                },
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Pool\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "An independent universal connection pool component.",
+            "homepage": "https://hyperf.io",
+            "keywords": [
+                "connection-pool",
+                "hyperf",
+                "php",
                 "swoole"
             ],
             "support": {
@@ -3521,12 +3734,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "833f1378e0f1abbddcc1480dcffa4d54b18a5ca8"
+                "reference": "37c4392be8a248507f48646526979b7e40ed7cfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/833f1378e0f1abbddcc1480dcffa4d54b18a5ca8",
-                "reference": "833f1378e0f1abbddcc1480dcffa4d54b18a5ca8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/37c4392be8a248507f48646526979b7e40ed7cfa",
+                "reference": "37c4392be8a248507f48646526979b7e40ed7cfa",
                 "shasum": ""
             },
             "require": {
@@ -3622,7 +3835,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-08T12:31:42+00:00"
+            "time": "2025-11-14T05:59:56+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -4705,16 +4918,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.2.3",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2"
+                "reference": "d74205c497bfbca49f34d4bc4c19c17e22db4ebb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2",
-                "reference": "737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/d74205c497bfbca49f34d4bc4c19c17e22db4ebb",
+                "reference": "d74205c497bfbca49f34d4bc4c19c17e22db4ebb",
                 "shasum": ""
             },
             "require": {
@@ -4743,7 +4956,7 @@
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "support": {
                 "issues": "https://github.com/theseer/tokenizer/issues",
-                "source": "https://github.com/theseer/tokenizer/tree/1.2.3"
+                "source": "https://github.com/theseer/tokenizer/tree/1.3.0"
             },
             "funding": [
                 {
@@ -4751,12 +4964,14 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-03T12:36:25+00:00"
+            "time": "2025-11-13T13:44:09+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "phpunit/phpunit": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

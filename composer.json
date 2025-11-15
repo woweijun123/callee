@@ -17,12 +17,13 @@
   },
   "require": {
     "php": ">=8.3",
-    "hyperf/framework": "~3.1.0",
     "hyperf/context": "~3.1",
+    "hyperf/database": "~3.1.0",
+    "hyperf/db-connection": "~3.1.0",
     "hyperf/di": "~3.1",
     "hyperf/event": "~3.1",
-    "hyperf/logger": "~3.1.0",
-    "hyperf/database": "~3.1.0"
+    "hyperf/framework": "~3.1.0",
+    "hyperf/logger": "~3.1.0"
   },
   "suggest": {
   },

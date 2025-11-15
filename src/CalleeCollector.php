@@ -23,7 +23,7 @@ class CalleeCollector extends MetadataCollector
      * @param int               $priority 优先级
      * @return void
      */
-    public static function addCallee(array $callable, CalleeEvent|array $event, ?string $scope = null, int $priority = CalleeData::DEFAULT_PRIORITY): void
+    public static function addCallee(array $callable, CalleeEvent|array $event, ?string $scope = null, int $priority = CalleeData::DEFAULT_PRIORITY, bool $transaction = false): void
     {
         try {
             $parameters = Reflection::reflectMethod(...$callable)->getParameters();
@@ -47,7 +47,7 @@ class CalleeCollector extends MetadataCollector
         // 获取事件命名空间和事件名
         [$namespace, $eventName] = self::getEvent($event, $scope);
         // 添加到容器
-        static::$container[$namespace][$eventName][] = new CalleeData($callable, $mapper, $priority);
+        static::$container[$namespace][$eventName][] = new CalleeData($callable, $mapper, $priority, $transaction);
     }
 
     /**

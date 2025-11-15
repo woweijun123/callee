@@ -10,6 +10,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
+use Hyperf\DbConnection\Db;
 use function Hyperf\Support\value;
 
 class Reflection
@@ -38,7 +39,14 @@ class Reflection
         $result = [];
          /* @var CalleeData $callee */
         foreach ($callable as $callee) {
-            $result[] = self::invoke($callee->callee, $args, $callee->mapper, $strict);
+            // 若实现了 ShouldDispatchAfterCommit 接口，则检查是否在事务中
+            if ($callee->transaction && Db::connection()->isTransaction()) {
+                DatabaseTransactionRecord::instance()->addCallback(function () use ($callee, $args, $strict) {
+                    self::invoke($callee->callee, $args, $callee->mapper, $strict);
+                });
+            } else {
+                $result[] = self::invoke($callee->callee, $args, $callee->mapper, $strict);
+            }
         }
         return count($result) == 1 ? array_shift($result) : $result;
     }

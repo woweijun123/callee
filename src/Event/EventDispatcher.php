@@ -6,6 +6,7 @@ namespace Callee\Event;
 
 use Callee\DatabaseTransactionRecord;
 use Callee\ShouldDispatchAfterCommit;
+use Hyperf\DbConnection\Db;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\EventDispatcher\StoppableEventInterface;
@@ -28,7 +29,7 @@ class EventDispatcher implements EventDispatcherInterface
     public function dispatch(object $event): object
     {
         // 若实现了 ShouldDispatchAfterCommit 接口，则检查是否在事务中
-        if ($event instanceof ShouldDispatchAfterCommit) {
+        if ($event instanceof ShouldDispatchAfterCommit && Db::connection()->isTransaction()) {
             DatabaseTransactionRecord::instance()->addCallback(function () use ($event) {
                 $this->invoke($event);
             });

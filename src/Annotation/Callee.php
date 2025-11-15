@@ -14,12 +14,12 @@ use Hyperf\Di\Annotation\AbstractAnnotation;
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class Callee extends AbstractAnnotation
 {
-    public function __construct(public CalleeEvent|array $event, public ?string $scope = null, public int $priority = CalleeData::DEFAULT_PRIORITY)
+    public function __construct(public CalleeEvent|array $event, public ?string $scope = null, public int $priority = CalleeData::DEFAULT_PRIORITY, public bool $transaction = false)
     {
     }
 
     public function collectMethod(string $className, ?string $target): void
     {
-        CalleeCollector::addCallee([$className, $target], $this->event, $this->scope, $this->priority);
+        CalleeCollector::addCallee([$className, $target], $this->event, $this->scope, $this->priority, $this->transaction);
     }
 }
