@@ -29,10 +29,11 @@ class CalleeCollector extends MetadataCollector
         } catch (ReflectionException) {
             $parameters = [];
         }
-        // 获取参数映射
+        // 获取方法参数映射
         $mapper = [];
         foreach ($parameters as $parameter) {
             $name = $parameter->getName();
+            // 获取方法参数的 Mapper 注解的传参
             $reflectionAttributes = $parameter->getAttributes(Mapper::class);
             foreach ($reflectionAttributes as $attribute) {
                 $instance = $attribute->newInstance();
@@ -43,7 +44,6 @@ class CalleeCollector extends MetadataCollector
             // 默认参数名优先级最低
             $mapper[$name] = $name;
         }
-        // 获取事件命名空间和事件名
         [$namespace, $eventName] = self::getEvent($callee->event, $callee->scope);
         // 添加到容器
         static::$container[$namespace][$eventName][] = new CalleeData($callable, $mapper, $callee);
@@ -111,18 +111,28 @@ class CalleeCollector extends MetadataCollector
     public static function clear(?string $key = null): void
     {
         if ($key) {
-            foreach (static::$container as $namespace => $events) {
-                foreach ($events as $event => $callableList) {
-                    /* @var CalleeData $callable */
-                    foreach ($callableList as $callable) {
-                        if ($callable->callable[0] === $key) {
-                            unset(static::$container[$namespace][$event]);
-                        }
+            static::clearByClassKey($key);
+        } else {
+            static::$container = [];
+        }
+    }
+
+    /**
+     * 根据类名键值清除容器数据
+     * @param string $key 类名
+     * @return void
+     */
+    private static function clearByClassKey(string $key): void
+    {
+        foreach (static::$container as $namespace => $events) {
+            foreach ($events as $event => $callableList) {
+                /* @var CalleeData $callable */
+                foreach ($callableList as $callable) {
+                    if ($callable->callable[0] === $key) {
+                        unset(static::$container[$namespace][$event]);
                     }
                 }
             }
-        } else {
-            static::$container = [];
         }
     }
 }
