@@ -22,13 +22,16 @@ class Callee extends AbstractAnnotation
      * @param string|null $scope 作用域，可选参数，用于限制该注解的作用范围。
      * @param int $priority 优先级，用于决定多个 Callee 在同一事件中被调用的顺序。
      * @param bool $afterCommit 是否在事务成功 提交 (Commit) 后才执行该方法。
+     * @param int $async 是否异步执行该方法。
      */
     public function __construct(
         public CalleeEvent|array $event,
-        public ?string $scope = null,
-        public int $priority = CalleeData::DEFAULT_PRIORITY,
-        public bool $afterCommit = false
-    ) {
+        public ?string           $scope = null,
+        public int               $priority = CalleeData::DEFAULT_PRIORITY,
+        public bool              $afterCommit = false,
+        public bool              $async = false,
+    )
+    {
     }
 
     /**
@@ -44,12 +47,6 @@ class Callee extends AbstractAnnotation
     public function collectMethod(string $className, ?string $target): void
     {
         // 将方法信息、事件、作用域、优先级和事务状态添加到收集器中。
-        CalleeCollector::addCallee(
-            [$className, $target], // 目标方法：[类名, 方法名]
-            $this->event,          // 触发事件
-            $this->scope,          // 作用域
-            $this->priority,       // 优先级
-            $this->afterCommit     // 是否开启事务
-        );
+        CalleeCollector::addCallee([$className, $target], $this);
     }
 }

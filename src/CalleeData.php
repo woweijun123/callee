@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Callee;
 
+use Callee\Annotation\Callee;
+
 /**
  * CalleeData 类
  *
@@ -21,16 +23,14 @@ class CalleeData
     /**
      * 构造函数
      *
-     * @param array $callee 需要被调用的方法信息数组，通常是 [类名, 方法名]。
+     * @param array $callable 需要被调用的方法信息数组，通常是 [类名, 方法名]。
      * @param array $mapper 映射器/数据映射，可能包含调用所需的额外参数或上下文信息。
-     * @param int $priority 优先级，值越高，执行顺序越靠前（默认 0）。
-     * @param bool $afterCommit 是否在数据库事务成功提交后才执行此方法，默认否。
+     * @param Callee $callee Callee 注解
      */
     public function __construct(
-        public array $callee,
+        public array $callable,
         public array $mapper,
-        public int   $priority,
-        public bool  $afterCommit = false
+        public Callee $callee,
     )
     {
     }

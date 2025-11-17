@@ -2,6 +2,7 @@
 
 namespace Callee;
 
+use Callee\Annotation\Callee;
 use Callee\Annotation\Mapper;
 use Hyperf\Di\MetadataCollector;
 use Hyperf\Stdlib\SplPriorityQueue;
@@ -18,13 +19,10 @@ class CalleeCollector extends MetadataCollector
     /**
      * 添加被调用方法到容器
      * @param array $callable [类名, 方法名]
-     * @param CalleeEvent|array $event 事件枚举 或 [命名空间, 事件名] 格式的数组
-     * @param string|null $scope 作用域
-     * @param int $priority 优先级
-     * @param bool $afterCommit 是否在事务提交后执行
+     * @param Callee $callee Callee 注解
      * @return void
      */
-    public static function addCallee(array $callable, CalleeEvent|array $event, ?string $scope = null, int $priority = CalleeData::DEFAULT_PRIORITY, bool $afterCommit = false): void
+    public static function addCallee(array $callable, Callee $callee): void
     {
         try {
             $parameters = Reflection::reflectMethod(...$callable)->getParameters();
@@ -46,9 +44,9 @@ class CalleeCollector extends MetadataCollector
             $mapper[$name] = $name;
         }
         // 获取事件命名空间和事件名
-        [$namespace, $eventName] = self::getEvent($event, $scope);
+        [$namespace, $eventName] = self::getEvent($callee->event, $callee->scope);
         // 添加到容器
-        static::$container[$namespace][$eventName][] = new CalleeData($callable, $mapper, $priority, $afterCommit);
+        static::$container[$namespace][$eventName][] = new CalleeData($callable, $mapper, $callee);
     }
 
     /**
@@ -79,16 +77,16 @@ class CalleeCollector extends MetadataCollector
         }
         [$namespace, $eventName] = self::getEvent($event, $scope);
         /**
-         * @var CalleeData[] $calleeList
+         * @var CalleeData[] $callableDataList
          */
-        $calleeList = static::$container[$namespace][$eventName];
-        if (!$calleeList) {
+        $callableDataList = static::$container[$namespace][$eventName];
+        if (!$callableDataList) {
             return null;
         }
         // 创建优先级队列并按优先级排序
         $queue = new SplPriorityQueue();
-        foreach ($calleeList as $callee) {
-            $queue->insert($callee, $callee->priority);
+        foreach ($callableDataList as $calleeData) {
+            $queue->insert($calleeData, $calleeData->callee->priority);
         }
         return $queue;
     }
@@ -117,7 +115,7 @@ class CalleeCollector extends MetadataCollector
                 foreach ($events as $event => $callableList) {
                     /* @var CalleeData $callable */
                     foreach ($callableList as $callable) {
-                        if ($callable->callee[0] === $key) {
+                        if ($callable->callable[0] === $key) {
                             unset(static::$container[$namespace][$event]);
                         }
                     }

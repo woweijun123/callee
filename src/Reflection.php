@@ -4,13 +4,14 @@ namespace Callee;
 
 use Hyperf\Collection\Arr;
 use Hyperf\Context\ApplicationContext;
+use Hyperf\Coroutine\Coroutine;
+use Hyperf\DbConnection\Db;
 use Hyperf\Stringable\Str;
 use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
-use Hyperf\DbConnection\Db;
 use function Hyperf\Support\value;
 
 class Reflection
@@ -32,20 +33,20 @@ class Reflection
      */
     public static function call(CalleeEvent|array|null $event, array $args = [], bool $strict = false, mixed $default = null, ?string $scope = null): mixed
     {
-        $callable = CalleeCollector::getCallee($event, $scope);
-        if (!$callable) {
+        $callableDataList = CalleeCollector::getCallee($event, $scope);
+        if (!$callableDataList) {
             return value($default, $args);
         }
         $result = [];
-         /* @var CalleeData $callee */
-        foreach ($callable as $callee) {
+         /* @var CalleeData $calleeData */
+        foreach ($callableDataList as $calleeData) {
             // 若实现了 ShouldDispatchAfterCommit 接口，则检查是否在事务中
-            if ($callee->afterCommit && Db::connection()->isTransaction()) {
-                DatabaseTransactionRecord::instance()->addCallback(function () use ($callee, $args, $strict) {
-                    self::invoke($callee->callee, $args, $callee->mapper, $strict);
+            if ($calleeData->callee->afterCommit && Db::connection()->isTransaction()) {
+                DatabaseTransactionRecord::instance()->addCallback(function () use ($calleeData, $args, $strict) {
+                    self::invoke($calleeData, $args, $strict);
                 });
             } else {
-                $result[] = self::invoke($callee->callee, $args, $callee->mapper, $strict);
+                $result[] = self::invoke($calleeData, $args, $strict);
             }
         }
         return count($result) == 1 ? array_shift($result) : $result;
@@ -53,16 +54,15 @@ class Reflection
 
     /**
      * callable 方式反射调用
-     * @param array $callable callable 调用数组
+     * @param CalleeData $calleeData CalleeData 类
      * @param array $args     参数
-     * @param array $mapper   参数映射，格式 源参数 key => 转换后的目标参数 key
      * @param bool  $strict   是否严格模式，为true时，空参数都会使用默认值
      * @return mixed
      * @throws
      */
-    public static function invoke(array $callable, array $args = [], array $mapper = [], bool $strict = false): mixed
+    public static function invoke(CalleeData $calleeData, array $args = [], bool $strict = false): mixed
     {
-        [$class, $method] = $callable;
+        [$class, $method] = $calleeData->callable;
         if (is_string($class)) {
             $class = ApplicationContext::getContainer()->get($class);
         }
@@ -73,7 +73,7 @@ class Reflection
         $missingValue = Str::random(10);
         // 转换参数映射
         $argsMapper = [];
-        foreach ($mapper as $src => $target) {
+        foreach ($calleeData->mapper as $src => $target) {
             $val = Arr::get($args, $src, $missingValue);
             if ($val !== $missingValue && !isset($argsMapper[$target])) {
                 $argsMapper[$target] = $val;
@@ -86,8 +86,11 @@ class Reflection
             $val          = Arr::get($argsMapper, $name, $default);
             $parameters[] = $strict ? ($val ?: $default) : $val;
         }
-
-        return $class->$method(...$parameters);
+        if ($calleeData->callee->async) {
+            return Coroutine::create(fn() => $class->$method(...$parameters));
+        } else {
+            return $class->$method(...$parameters);
+        }
     }
 
     /**
