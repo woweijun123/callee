@@ -17,13 +17,14 @@ class CalleeCollector extends MetadataCollector
 
     /**
      * 添加被调用方法到容器
-     * @param array             $callable [类名, 方法名]
-     * @param CalleeEvent|array $event    事件枚举 或 [命名空间, 事件名] 格式的数组
-     * @param string|null       $scope    作用域
-     * @param int               $priority 优先级
+     * @param array $callable [类名, 方法名]
+     * @param CalleeEvent|array $event 事件枚举 或 [命名空间, 事件名] 格式的数组
+     * @param string|null $scope 作用域
+     * @param int $priority 优先级
+     * @param bool $afterCommit 是否在事务提交后执行
      * @return void
      */
-    public static function addCallee(array $callable, CalleeEvent|array $event, ?string $scope = null, int $priority = CalleeData::DEFAULT_PRIORITY, bool $transaction = false): void
+    public static function addCallee(array $callable, CalleeEvent|array $event, ?string $scope = null, int $priority = CalleeData::DEFAULT_PRIORITY, bool $afterCommit = false): void
     {
         try {
             $parameters = Reflection::reflectMethod(...$callable)->getParameters();
@@ -33,7 +34,7 @@ class CalleeCollector extends MetadataCollector
         // 获取参数映射
         $mapper = [];
         foreach ($parameters as $parameter) {
-            $name                 = $parameter->getName();
+            $name = $parameter->getName();
             $reflectionAttributes = $parameter->getAttributes(Mapper::class);
             foreach ($reflectionAttributes as $attribute) {
                 $instance = $attribute->newInstance();
@@ -47,13 +48,13 @@ class CalleeCollector extends MetadataCollector
         // 获取事件命名空间和事件名
         [$namespace, $eventName] = self::getEvent($event, $scope);
         // 添加到容器
-        static::$container[$namespace][$eventName][] = new CalleeData($callable, $mapper, $priority, $transaction);
+        static::$container[$namespace][$eventName][] = new CalleeData($callable, $mapper, $priority, $afterCommit);
     }
 
     /**
      * 检查是否存在对应的调用方法
      * @param CalleeEvent|array|null $event 事件枚举 或 [命名空间, 事件名] 格式的数组
-     * @param string|null            $scope 作用域
+     * @param string|null $scope 作用域
      * @return bool
      */
     public static function hasCallee(CalleeEvent|array|null $event, ?string $scope = null): bool
@@ -95,7 +96,7 @@ class CalleeCollector extends MetadataCollector
     /**
      * 解析事件命名空间和事件名
      * @param CalleeEvent|array $event 事件枚举 或 [命名空间, 事件名] 格式的数组
-     * @param string|null       $scope 作用域
+     * @param string|null $scope 作用域
      * @return array
      */
     public static function getEvent(CalleeEvent|array $event, ?string $scope = null): array

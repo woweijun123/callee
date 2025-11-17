@@ -40,7 +40,7 @@ class Reflection
          /* @var CalleeData $callee */
         foreach ($callable as $callee) {
             // 若实现了 ShouldDispatchAfterCommit 接口，则检查是否在事务中
-            if ($callee->transaction && Db::connection()->isTransaction()) {
+            if ($callee->afterCommit && Db::connection()->isTransaction()) {
                 DatabaseTransactionRecord::instance()->addCallback(function () use ($callee, $args, $strict) {
                     self::invoke($callee->callee, $args, $callee->mapper, $strict);
                 });
