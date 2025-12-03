@@ -6,10 +6,8 @@ namespace Callee\Listener;
 
 use Callee\DatabaseTransactionRecord;
 use Hyperf\Database\Events\TransactionRolledBack;
-use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 
-#[Listener]
 class TransactionRollbackListener implements ListenerInterface
 {
     public function listen(): array

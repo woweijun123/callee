@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Callee;
 
 use Callee\Listener\ImplRegister;
+use Callee\Listener\TransactionCommittedListener;
+use Callee\Listener\TransactionRollbackListener;
 use Hyperf\Event\EventDispatcher;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -19,6 +21,8 @@ class ConfigProvider
             ],
             'listeners'    => [
                 ImplRegister::class,
+                TransactionCommittedListener::class,
+                TransactionRollbackListener::class,
             ],
             'annotations'  => [
                 'scan' => [

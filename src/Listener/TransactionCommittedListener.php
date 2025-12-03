@@ -6,10 +6,8 @@ namespace Callee\Listener;
 
 use Callee\DatabaseTransactionRecord;
 use Hyperf\Database\Events\TransactionCommitted;
-use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 
-#[Listener]
 class TransactionCommittedListener implements ListenerInterface
 {
     public function listen(): array
