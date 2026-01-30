@@ -7,7 +7,7 @@ namespace Callee;
 use Callee\Listener\ImplRegister;
 use Callee\Listener\TransactionCommittedListener;
 use Callee\Listener\TransactionRollbackListener;
-use Hyperf\Event\EventDispatcher;
+use Callee\Event\EventDispatcher;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 class ConfigProvider
