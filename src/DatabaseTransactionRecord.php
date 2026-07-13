@@ -40,8 +40,8 @@ class DatabaseTransactionRecord
      */
     public function executeCallbacks(): void
     {
-        // 在执行之前清除，以便回调不会被后面的事务重播。
         $callbacks = $this->callbacks;
+        // 在执行之前清除，以便回调不会被后面的事务重播
         $this->flush();
 
         foreach ($callbacks as $callback) {
@@ -73,6 +73,7 @@ class DatabaseTransactionRecord
     public function executeCallbacksForRollback(): void
     {
         $callbacks = $this->callbacksForRollback;
+        // 在执行之前清除，以便回调不会被后面的事务重播
         $this->flush();
 
         foreach ($callbacks as $callback) {
