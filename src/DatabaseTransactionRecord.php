@@ -97,7 +97,7 @@ class DatabaseTransactionRecord
     public function flush(): void
     {
         // 清空所有注册的回调函数
-        $this->callbacks            = [];
+        $this->callbacks = [];
         $this->callbacksForRollback = [];
     }
 }
