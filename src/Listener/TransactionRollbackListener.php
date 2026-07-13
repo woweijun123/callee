@@ -22,6 +22,8 @@ class TransactionRollbackListener implements ListenerInterface
         if (!$event instanceof TransactionRolledBack) {
             return;
         }
-        DatabaseTransactionRecord::instance()->flush();
+        if ($event->connection->transactionLevel() === 0) {
+            DatabaseTransactionRecord::instance()->executeCallbacksForRollback();
+        }
     }
 }

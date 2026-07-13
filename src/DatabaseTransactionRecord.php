@@ -40,7 +40,11 @@ class DatabaseTransactionRecord
      */
     public function executeCallbacks(): void
     {
-        foreach ($this->callbacks as $callback) {
+        // 在执行之前清除，以便回调不会被后面的事务重播。
+        $callbacks = $this->callbacks;
+        $this->flush();
+
+        foreach ($callbacks as $callback) {
             $callback();
         }
     }
@@ -68,7 +72,10 @@ class DatabaseTransactionRecord
      */
     public function executeCallbacksForRollback(): void
     {
-        foreach ($this->callbacksForRollback as $callback) {
+        $callbacks = $this->callbacksForRollback;
+        $this->flush();
+
+        foreach ($callbacks as $callback) {
             $callback();
         }
     }

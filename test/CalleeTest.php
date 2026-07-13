@@ -6,6 +6,7 @@ use Callee\Annotation\Callee;
 use Callee\CalleeCollector;
 use Callee\CalleeEvent;
 use Callee\CalleeEventTrait;
+use Callee\DatabaseTransactionRecord;
 use Callee\Reflection;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\Di\Container;
@@ -72,6 +73,46 @@ class CalleeTest extends TestCase
     {
         parent::tearDownAfterClass();
         CalleeCollector::clear();
+    }
+
+    public function testTransactionCallbacksAreDrainedAfterExecution(): void
+    {
+        $record = DatabaseTransactionRecord::instance(refresh: true);
+        $executed = [];
+
+        $record->addCallback(static function () use (&$executed): void {
+            $executed[] = 'committed';
+        });
+        $record->addCallbackForRollback(static function () use (&$executed): void {
+            $executed[] = 'rolled back';
+        });
+
+        $record->executeCallbacks();
+        $record->executeCallbacks();
+
+        $this->assertSame(['committed'], $executed);
+        $this->assertSame([], $record->getCallbacks());
+        $this->assertSame([], $record->getCallbacksForRollback());
+    }
+
+    public function testRollbackCallbacksAreDrainedAfterExecution(): void
+    {
+        $record = DatabaseTransactionRecord::instance(refresh: true);
+        $executed = [];
+
+        $record->addCallback(static function () use (&$executed): void {
+            $executed[] = 'committed';
+        });
+        $record->addCallbackForRollback(static function () use (&$executed): void {
+            $executed[] = 'rolled back';
+        });
+
+        $record->executeCallbacksForRollback();
+        $record->executeCallbacksForRollback();
+
+        $this->assertSame(['rolled back'], $executed);
+        $this->assertSame([], $record->getCallbacks());
+        $this->assertSame([], $record->getCallbacksForRollback());
     }
 }
 
