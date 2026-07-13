@@ -22,7 +22,7 @@ class TransactionCommittedListener implements ListenerInterface
         if (!$event instanceof TransactionCommitted) {
             return;
         }
-        if ($event->connection->transactionLevel() == 0) {
+        if ($event->connection->transactionLevel() === 0) {
             DatabaseTransactionRecord::instance()->executeCallbacks();
         }
     }
